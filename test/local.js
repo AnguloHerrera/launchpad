@@ -44,6 +44,13 @@ describe('Local browser launcher tests', function() {
               return done();
             }
 
+            server.once('error', function(e) {
+              console.log("--> ERROR " + e);
+              instance.stop(function() {
+                done(e);
+              });
+            });
+            
             console.log("Server requested!");
             server.once('request', function (req) {
               console.log("Request received");
