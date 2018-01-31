@@ -43,6 +43,13 @@ describe('Local browser launcher tests', function() {
               assert.equal(error.message, 'Browser ' + name + ' not available.');
               return done();
             }
+            
+            var options = {
+                hostname: 'localhost',
+                port: 6785,
+                method: 'GET'
+            };
+            http.request(options, function(){});
 
             server.once('error', function(e) {
               console.log("--> ERROR " + e);
