@@ -48,6 +48,7 @@ describe('Local browser launcher tests', function() {
               var expected = familyMapping[name] || name;
 
               assert.equal(userAgent.family.toLowerCase(), expected, 'Got expected browser family');
+              instance.running = false;
               instance.stop(done);
             });
           });
