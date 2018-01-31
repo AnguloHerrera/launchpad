@@ -35,6 +35,7 @@ describe('Local browser launcher tests', function() {
     
     Object.keys(local.platform).forEach(function (name) {
       it('Launches ' + name + ' browser on ' + process.platform, function (done) {
+        console.log("Browser name " + name);
         local(function (error, launcher) {
           launcher[name]('http://localhost:6785', function (error, instance) {
             if (error) {
@@ -43,13 +44,20 @@ describe('Local browser launcher tests', function() {
               return done();
             }
 
+            console.log("Server requested!");
             server.once('request', function (req) {
+              console.log("Request received");
+              
               var userAgent = useragent.parse(req.headers['user-agent']);
               var expected = familyMapping[name] || name;
 
               assert.equal(userAgent.family.toLowerCase(), expected, 'Got expected browser family');
               instance.running = false;
-              instance.stop(done);
+              instance.stop(function(err, data){
+                console.log("Stopped info " + err + " DATA " + data);
+                console.log("Stopped");
+                done();
+              });
             });
           });
         });
